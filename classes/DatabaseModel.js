@@ -1,5 +1,6 @@
 // for the sake of the open source project, i've moved all the database methods here. maybe it'll help if you wanna switch to a different db
-
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
 const mongoose = require("mongoose")
 
 // connect to database

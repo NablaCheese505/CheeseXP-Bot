@@ -1,10 +1,12 @@
+//slash/clear.js
+const { t } = require('../../utils/i18n.js');
 module.exports = {
 metadata: {
     permission: "ManageGuild",
     name: "clear",
-    description: "Clear a member's cooldown. (requires manage server permission)",
+    description: t('commands.clear.metadata_description'),
     args: [
-        { type: "user", name: "member", description: "Which member to clear", required: true }
+        { type: "user", name: "member", description: t('commands.clear.args_member_desc'), required: true }
     ]
 },
 
@@ -17,14 +19,14 @@ async run(client, int, tools) {
     else if (!tools.canManageServer(int.member, db.settings.manualPerms)) return tools.warn("*notMod")
     else if (!db.settings.enabled) return tools.warn("*xpDisabled")
 
-    if (user.bot) return tools.warn("Bots don't have cooldowns, silly!")
+    if (user.bot) return tools.warn(t('commands.clear.noBots'))
 
     let current = db.users[user.id]
     let cooldown = current?.cooldown
-    if (!cooldown || cooldown <= Date.now()) return tools.warn("This member doesn't have an active cooldown!")
+    if (!cooldown || cooldown <= Date.now()) return tools.warn(t('commands.clear.noCooldown'))
 
     client.db.update(int.guild.id, { $set: { [`users.${user.id}.cooldown`]: 0 } }).then(() => {
-        int.reply(`🔄 **${tools.pluralS(user.displayName)} cooldown has been reset!** (previously ${tools.timestamp(cooldown - Date.now())})`)
-    }).catch(() => tools.warn("Something went wrong while trying to reset the cooldown!"))
+        int.reply(t('commands.clear.success', { user: tools.pluralS(user.displayName), time: tools.timestamp(cooldown - Date.now()) }))
+    }).catch(() => tools.warn(t('commands.clear.error')))
 
 }}

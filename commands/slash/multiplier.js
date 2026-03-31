@@ -1,19 +1,22 @@
+//slash/multiplier.js
+const { t } = require('../../utils/i18n.js');
+
 module.exports = {
 metadata: {
     permission: "ManageGuild",
     name: "multiplier",
-    description: "Add or remove an XP multiplier. (requires manage server permission)",
+    description: t('commands.multiplier.metadata_description'),
     args: [
-        { type: "subcommand", name: "role", description: "Add or remove a role multiplier", args: [
-            { type: "role", name: "role_name", description: "The role to add a multiplier for", required: true },
-            { type: "float", name: "multiplier", description: "Multiply XP gain by this amount (0.5, 2, etc), or 0 to disable XP gain", min: 0, max: 100, required: true },
-            { type: "bool", name: "remove", description: "Removes this multiplier, if it exists" }
+        { type: "subcommand", name: "role", description: t('commands.multiplier.args_role_desc'), args: [
+            { type: "role", name: "role_name", description: t('commands.multiplier.args_role_name_desc'), required: true },
+            { type: "float", name: "multiplier", description: t('commands.multiplier.args_mult_desc'), min: 0, max: 100, required: true },
+            { type: "bool", name: "remove", description: t('commands.multiplier.args_remove_desc') }
         ]},
 
-        { type: "subcommand", name: "channel", description: "Add or remove a channel multiplier", args: [
-            { type: "channel", name: "channel_name", description: "The channel or category to add a multiplier for", required: true, acceptAll: true },
-            { type: "float", name: "multiplier", description: "Multiply XP gain by this amount (0.5, 2, etc), or 0 to disable XP gain", min: 0, max: 100, required: true },
-            { type: "bool", name: "remove", description: "Removes this multiplier, if it exists" }
+        { type: "subcommand", name: "channel", description: t('commands.multiplier.args_channel_desc'), args: [
+            { type: "channel", name: "channel_name", description: t('commands.multiplier.args_channel_name_desc'), required: true, acceptAll: true },
+            { type: "float", name: "multiplier", description: t('commands.multiplier.args_mult_desc'), min: 0, max: 100, required: true },
+            { type: "bool", name: "remove", description: t('commands.multiplier.args_remove_desc') }
         ]}
     ]
 },
@@ -24,6 +27,7 @@ async run(client, int, tools) {
     if (!tools.canManageServer(int.member, db.settings.manualPerms)) return tools.warn("*notMod")
 
     let type = int.options.getSubcommand(false)
+    let typeTranslated = type === 'role' ? t('commands.multiplier.type_role') : t('commands.multiplier.type_channel');
 
     let boostVal = int.options.get("multiplier")?.value ?? 1
     
@@ -42,12 +46,12 @@ async run(client, int, tools) {
     let foundExisting = (existingIndex >= 0) ? mults[existingIndex] : null
 
     let newList = db.settings.multipliers
-    if (foundExisting) db.settings.multipliers[typeIndex].splice(existingIndex, 1)    // remove by default
+    if (foundExisting) db.settings.multipliers[typeIndex].splice(existingIndex, 1)
 
     function finish(msg) {
         let viewMultipliers = tools.row([
-            tools.button({style: role ? "Primary" : "Secondary", label: `Role multipliers (${newList.roles.length})`, customId: "list_multipliers~roles"}),
-            tools.button({style: role ? "Secondary" : "Primary", label: `Channel multipliers (${newList.channels.length})`, customId: "list_multipliers~channels"})
+            tools.button({style: role ? "Primary" : "Secondary", label: t('commands.multiplier.btn_role_mult', { count: newList.roles.length }), customId: "list_multipliers~roles"}),
+            tools.button({style: role ? "Secondary" : "Primary", label: t('commands.multiplier.btn_channel_mult', { count: newList.channels.length }), customId: "list_multipliers~channels"})
         ])
 
         client.db.update(int.guild.id, { $set: { [`settings.multipliers.${typeIndex}`]: newList[typeIndex], 'info.lastUpdate': Date.now() }}).then(() => {
@@ -55,23 +59,20 @@ async run(client, int, tools) {
         })
     }
 
-    // deleting a multiplier
     if (remove) {
-        if (!foundExisting) return tools.warn(`This ${type} never had a multiplier to begin with!`)
-        return finish(`❌ **Successfully deleted ${foundExisting.boost}x multiplier for ${tag}.**`)
+        if (!foundExisting) return tools.warn(t('commands.multiplier.neverHad', { type: typeTranslated }))
+        return finish(t('commands.multiplier.deleted', { boost: foundExisting.boost, tag: tag }))
     }
 
-    // set up multiplier data
     let boostData = { id: target.id, boost }
     newList[typeIndex].push(boostData)
-    let boostStr = boost == 0 ? "no XP" : `${boost}x XP`
+    let boostStr = boost == 0 ? t('commands.multiplier.noXP') : t('commands.multiplier.xpBoost', { boost: boost })
 
-    // if multiplier already exists, replace it
     if (foundExisting) {
-        if (foundExisting.boost == boost) return tools.warn(`This ${type} already gives a ${boost}x multiplier!`)
-        return finish(`📝 **${tag} now gives ${boostStr}!** (previously ${foundExisting.boost}x)`)
+        if (foundExisting.boost == boost) return tools.warn(t('commands.multiplier.alreadyGives', { type: typeTranslated, boost: boost }))
+        return finish(t('commands.multiplier.updated', { tag: tag, boostStr: boostStr, oldBoost: foundExisting.boost }))
     }
     
-    return finish(`✅ **${tag} now gives ${boostStr}!**`)
+    return finish(t('commands.multiplier.added', { tag: tag, boostStr: boostStr }))
 
 }}

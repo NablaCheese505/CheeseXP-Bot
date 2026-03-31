@@ -1,17 +1,35 @@
+const { t } = require('../../utils/i18n.js');
+
 module.exports = {
 metadata: {
     permission: "ManageGuild",
-    name: "addxp",
-    description: "Add or remove XP from a member. (requires manage server permission)",
+    name: "addxp", // Los nombres de comandos deben ir fijos en minúsculas por reglas de Discord
+    description: t('commands.addxp.metadata_description'),
     args: [
-        { type: "user", name: "member", description: "Which member to modify", required: true },
-        { type: "integer", name: "xp", description: "How much XP to add (negative number to remove XP)", min: -1e10, max: 1e10, required: true },
-        { type: "string", name: "operation", description: "How the XP amount should be interpreted", required: false, choices: [
-            {name: "Add XP", value: "add_xp"},
-            {name: "Set XP to", value: "set_xp"},
-            {name: "Add levels", value: "add_level"},
-            {name: "Set level to", value: "set_level"},
-        ]},
+        { 
+            type: "user", 
+            name: "member", 
+            description: t('commands.addxp.args_member_description'), 
+            required: true 
+        },
+        { 
+            type: "integer", 
+            name: "xp", 
+            description: t('commands.addxp.args_xp_description'), 
+            min: -1e10, max: 1e10, required: true 
+        },
+        { 
+            type: "string", 
+            name: "operation", 
+            description: t('commands.addxp.args_operation_description'), 
+            required: false, 
+            choices: [
+                { name: t('commands.addxp.choice_add_xp'), value: "add_xp" },
+                { name: t('commands.addxp.choice_set_xp'), value: "set_xp" },
+                { name: t('commands.addxp.choice_add_levels'), value: "add_level" },
+                { name: t('commands.addxp.choice_set_level'), value: "set_level" },
+            ]
+        },
     ]
 },
 
@@ -22,15 +40,17 @@ async run(client, int, tools) {
     const operation = int.options.get("operation")?.value || "add_xp"
 
     let user = member?.user
-    if (!user) return tools.warn("I couldn't find that member!")
+    // Inyección de i18n
+    if (!user) return tools.warn(t('commands.addxp.memberNotFound'))
 
     let db = await tools.fetchSettings(user.id)
     if (!db) return tools.warn("*noData")
     else if (!tools.canManageServer(int.member, db.settings.manualPerms)) return tools.warn("*notMod")
     else if (!db.settings.enabled) return tools.warn("*xpDisabled")
 
-    if (amount === 0 && operation.startsWith("add")) return tools.warn("Invalid amount of XP!")
-    else if (user.bot) return tools.warn("You can't give XP to bots, silly!")
+    // Inyección de i18n
+    if (amount === 0 && operation.startsWith("add")) return tools.warn(t('commands.addxp.invalidAmount'))
+    else if (user.bot) return tools.warn(t('commands.addxp.noBots'))
 
     let currentXP = db.users[user.id]
     let xp = currentXP?.xp || 0
@@ -60,7 +80,24 @@ async run(client, int, tools) {
     let xpDiff = newXP - xp
 
     client.db.update(int.guild.id, { $set: { [`users.${user.id}.xp`]: newXP } }).then(() => {
-        int.reply(`${newXP > xp ? "⏫" : "⏬"} ${user.displayName} now has **${tools.commafy(newXP)}** XP${newLevel != level ? ` and is **level ${newLevel}**` : ""}! (previously ${tools.commafy(xp)}, ${xpDiff >= 0 ? "+" : ""}${tools.commafy(xpDiff)})`)
-    }).catch(() => tools.warn("Something went wrong while trying to modify XP!"))
+        
+        // --- PREPARAR VARIABLES PARA EL TEXTO TRADUCIDO ---
+        const emoji = newXP > xp ? "⏫" : "⏬";
+        const levelText = newLevel != level ? t('commands.addxp.levelText', { newLevel }) : "";
+        const formattedDiff = `${xpDiff >= 0 ? "+" : ""}${tools.commafy(xpDiff)}`;
+        
+        // Llamamos a la función t() inyectando todas las variables
+        const replyMessage = t('commands.addxp.success', {
+            emoji: emoji,
+            user: user.displayName,
+            newXP: tools.commafy(newXP),
+            levelText: levelText,
+            oldXP: tools.commafy(xp),
+            xpDiff: formattedDiff
+        });
+
+        int.reply(replyMessage);
+
+    }).catch(() => tools.warn(t('commands.addxp.error')))
 
 }}

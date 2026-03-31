@@ -1,3 +1,4 @@
+//slash/dev_deploy.js
 const config = require("../../config.json")
 const DiscordBuilders = require("@discordjs/builders")
 const Discord = require("discord.js")
