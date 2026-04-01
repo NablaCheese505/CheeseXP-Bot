@@ -18,39 +18,38 @@
     <div id="everything" style="display: none;">
         <div id="sidebar">
             <div tabindex="0" category="server" class="category" title="<%= t('config_page.sidebar.home_desc') %>">
-                <img class="serverIcon" style="border-radius: 420px">
-                <p><%= t('config_page.sidebar.home') %></p>
+                <img class="serverIcon" style="border-radius: 420px"> <p><%= t('config_page.sidebar.home') %></p>
             </div>
             <div tabindex="0" category="xp" class="category" title="<%= t('config_page.sidebar.xp_desc') %>">
-                <img src="/assets/categories/xp.svg">
+                <i data-lucide="sparkles"></i>
                 <p><%= t('config_page.sidebar.xp') %></p>
             </div>
             <div tabindex="0" category="rewardroles" class="category" title="<%= t('config_page.sidebar.rewards_desc') %>">
-                <img src="/assets/categories/rewardroles.svg">
+                <i data-lucide="gift"></i>
                 <p><%= t('config_page.sidebar.rewards') %></p>
             </div>
             <div tabindex="0" category="levelup" class="category" title="<%= t('config_page.sidebar.levelup_desc') %>">
-                <img src="/assets/categories/levelup.svg">
+                <i data-lucide="message-square-plus"></i>
                 <p><%= t('config_page.sidebar.levelup') %></p>
             </div>
             <div tabindex="0" category="multipliers" class="category" title="<%= t('config_page.sidebar.multipliers_desc') %>">
-                <img src="/assets/categories/multipliers.svg">
+                <i data-lucide="zap"></i>
                 <p><%= t('config_page.sidebar.multipliers') %></p>
             </div>
             <div tabindex="0" category="rankcard" class="category" title="<%= t('config_page.sidebar.rankcard_desc') %>">
-                <img src="/assets/categories/rankcard.svg">
+                <i data-lucide="id-card"></i>
                 <p><%= t('config_page.sidebar.rankcard') %></p>
             </div>
             <div tabindex="0" category="leaderboard" class="category" title="<%= t('config_page.sidebar.leaderboard_desc') %>">
-                <img src="/assets/categories/leaderboard.svg">
+                <i data-lucide="bar-chart-2"></i>
                 <p><%= t('config_page.sidebar.leaderboard') %></p>
             </div>
             <div tabindex="0" category="data" class="category" title="<%= t('config_page.sidebar.data_desc') %>">
-                <img src="/assets/categories/data.svg">
+                <i data-lucide="database"></i>
                 <p><%= t('config_page.sidebar.data') %></p>
             </div>
             <div tabindex="0" category="advanced" class="category" title="<%= t('config_page.sidebar.advanced_desc') %>">
-                <img src="/assets/categories/advanced.svg">
+                <i data-lucide="settings"></i>
                 <p><%= t('config_page.sidebar.advanced') %></p>
             </div>
         </div>
@@ -82,7 +81,7 @@
             </div>
             <div class="settingBox box categoryBox canfocus" tabindex="0">
                 <div class="centerflex">
-                    <img cat="icon"/>
+                    <div cat="icon" class="icon-container"></div> 
                     <div style="overflow: hidden">
                         <h2 cat="name"></h2>
                         <p cat="info" class="details" style="height: 56px"></p>

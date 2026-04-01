@@ -358,14 +358,14 @@ input:checked + .sliderspan:before {
     transition-duration: 0.1s;
 }
 
-.categoryBox img {
+.categoryBox img, .categoryBox svg {
     height: 50px !important;
     width: 50px !important;
     margin-right: 18px;
-    flex-shrink: 0; /* Evita que flexbox los estire a la fuerza */
+    flex-shrink: 0;
+    color: var(--polarisgreen);
 }
 
-/* Y por si acaso se borró esta también, ayuda a que el texto quede bien pegado arriba */
 .categoryBox h2 {
     margin-top: 6px !important;
 }
@@ -549,10 +549,11 @@ input:checked + .sliderspan:before {
     background-color: var(--lighterfg);
 }
 
-#sidebar div img {
+#sidebar div img, #sidebar div svg {
     width: 32px;
     height: 32px;
     margin-right: 16px;
+    color: var(--polarisgreen);
 }
 
 #unsavedWarning {
@@ -1017,9 +1018,9 @@ input:checked + .sliderspan:before {
         flex: 1; /* Repartir el espacio equitativamente */
     }
 
-    #sidebar div img {
-        margin-right: 0; /* Quitamos el margen porque ya no hay texto al lado */
-        width: 24px; /* Iconos un poco más pequeños para que quepan */
+    #sidebar div img, #sidebar div svg {
+        margin-right: 0; 
+        width: 24px; 
         height: 24px;
     }
 

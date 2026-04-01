@@ -247,7 +247,10 @@ addUhOh()
             let cSlot = categorySlot.clone()
             cSlot.find('h2[cat=name]').text($(this).find('p').text())
             cSlot.find('p[cat=info]').text($(this).attr('title'))
-            cSlot.find('img[cat=icon]').attr("src", $(this).find('img').attr('src'))
+
+            let iconElement = $(this).find('img, svg, i').first().clone();
+            cSlot.find('.icon-container').empty().append(iconElement);
+            
             cSlot.find('p[cat=extra]').attr("category", $(this).attr('category'))
             cSlot.addClass('categoryShortcut').attr('category', $(this).attr('category'))
             $('#serverInfo').append(cSlot)
