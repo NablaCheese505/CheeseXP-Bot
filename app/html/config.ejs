@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link href="/css/polaris.css?v=3" rel="stylesheet" type="text/css"/>
     <link href="/assets/polaris.svg" rel="icon"/>
     <title><%= t('config_page.global.page_title') %></title>
@@ -14,7 +15,7 @@
 </head>
 <body>
     <h2 class="middleflex" id="loading" style="margin-top: 75px; width: 100%; position: absolute;"><%= t('config_page.global.loading') %></h2>
-    <div id="everything" style="display: none; width: 1500px">
+    <div id="everything" style="display: none;">
         <div id="sidebar">
             <div tabindex="0" category="server" class="category" title="<%= t('config_page.sidebar.home_desc') %>">
                 <img class="serverIcon" style="border-radius: 420px">
@@ -160,14 +161,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="simpleflex">
+                <div style="display: flex; flex-direction: column; gap: 30px; width: 100%;">
                     <div>
                         <h2 style="margin-bottom: 12px"><%= t('dashboard.Preview') %></h2>
                         <div class="simpleflex flexTable" id="curvePreview"></div>
                         <button id="showMoreCurveInfo" style="margin-top: 16px; width: 140px"><%= t('dashboard.Moreinfo') %></button>
                     </div>
-                    <div style="margin-left: 40px; margin-top: 68px">
-                        <div class="desmos" id="xpGraph"></div>
+                    <div>
+                    <div class="desmos" id="xpGraph"></div>
                         <p class="details" id="desmosJumpscare" style="font-size: 10px; opacity: 25%"><%= t('dashboard.desmosjumpscare') %></p>
                     </div>
                 </div>
@@ -356,7 +357,7 @@
                         <p class="exampleP details" id="exampleError" style="opacity: 100%; display: none; color: red"><%= t('dashboard.ErrorsendingexampleAreyourDMsenabled') %></p>
                         <div class="spacedflex" style="display: flex">
                             <button id="sendExample" style="background-color: var(--emojipurple)"><%= t('dashboard.SendexampleinDMs') %></button>
-                            <input id="exampleLevel" max="1000" min="1" placeholder="Level" style="height: 37px; width: 70px" type="number"/>
+                            <input id="exampleLevel" max="1000" min="1" placeholder="Level" style="height: 37px; width: 90px" type="number"/>
                         </div>
                     </div>
                 </div>
@@ -430,7 +431,7 @@
                 <div class="centerflex spacedflex" style="margin-top:10px">
                     <select id="roleMultiplierSelect"></select>
                     <p><%= t('dashboard.grants') %></p>
-                    <input decimals="4" id="roleMultiplierAmount" max="100" min="0" style="width: 70px; margin-right: 2px" type="number"/>
+                    <input decimals="4" id="roleMultiplierAmount" max="100" min="0" style="width: 90px; margin-right: 2px" type="number"/>
                     <p><%= t('dashboard.XP') %></p>
                 </div>
                 <button id="addRoleMultiplier" style="margin-top: 10px"><%= t('dashboard.Add') %></button>
@@ -453,7 +454,7 @@
                 <div class="centerflex spacedflex" style="margin-top:10px">
                     <select id="channelMultiplierSelect"></select>
                     <p><%= t('dashboard.grants') %></p>
-                    <input decimals="4" id="channelMultiplierAmount" max="100" min="0" style="width: 70px; margin-right: 2px" type="number"/>
+                    <input decimals="4" id="channelMultiplierAmount" max="100" min="0" style="width: 90px; margin-right: 2px" type="number"/>
                     <p><%= t('dashboard.XP') %></p>
                 </div>
                 <button id="addChannelMultiplier" style="background-color: var(--emojipurple); margin-top: 10px"><%= t('dashboard.Add') %></button>
@@ -832,5 +833,6 @@
 <script src="/polaris.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js" type="text/javascript"></script>
 <script src="https://www.desmos.com/api/v1.7/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="/js/settings.js" type="text/javascript"></script>
 </html>

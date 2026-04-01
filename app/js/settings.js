@@ -152,6 +152,7 @@ addUhOh()
             $("#curveStuff")[0].scrollIntoView()
             updateCurveTable()
             checkUnsavedChanges()
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         })
 
         // xp curve table update
@@ -308,10 +309,11 @@ addUhOh()
                 $('#rewards div[col="role"]').append(`<p class="longname" style="color: ${foundRole.color == "#000000" ? "var(--defaultrolecol)" : foundRole.color}">${foundRole.name}</p>`)
                 $('#rewards div[col="keep"]').append(`<p class="toggleRow" tr="keep" tabindex="0" roleID="${reward.id}" style="color: ${reward.keep ? "lime" : "nah"}">${reward.keep ? i18n.yes : i18n.no}${reward.noSync && !excludeEnabled ? "*" : ""}</p>`)
                 $('#rewards div[col="exclude"]').append(`<p class="toggleRow" tr="noSync" tabindex="0" roleID="${reward.id}" style="color: ${reward.noSync ? "red" : "lime"}">${reward.noSync ? i18n.no : i18n.yes}</p>`)
-                $('#rewards div[col="delete"]').append(`<p class="deleteRow deleteReward" tabindex="0" roleID="${reward.id}">🗑️</p>`)
+                $('#rewards div[col="delete"]').append(`<p class="deleteRow deleteReward" tabindex="0" roleID="${reward.id}"><i data-lucide="trash-2" style="color: var(--emojired); width: 20px; height: 20px; cursor: pointer;"></i></p>`)
             })
             $('#rewardCount').html(rewards.length)
             checkUnsavedChanges()
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         // role selector appending (hacky but whatever, screw frontend stuff)
@@ -347,6 +349,7 @@ addUhOh()
 
         // add new reward role
         $('#addRewardRole').click(function() {
+            lucide.createIcons();
             let roleID = $('#rewardRoleSelect').val()
             let level = Math.round($('#rewardLevel').val())
             let keep = !$('#rewardKeep').prop('checked')
@@ -428,10 +431,11 @@ addUhOh()
 
                 $('#roleMultipliers div[col="boost"]').append(`<p class="roleMultiplierAmount numberinput" roleID="${boost.id}" min="0" max="100" decimals="4" default="1" tabindex="-1" contenteditable>${+boost.boost}x</p>`)
                 $('#roleMultipliers div[col="role"]').append(`<p class="longname" style="color: ${foundRole.color == "#000000" ? "var(--defaultrolecol)" : foundRole.color}">${foundRole.name}</p>`)
-                $('#roleMultipliers div[col="delete"]').append(`<p class="deleteRow deleteRoleMultiplier" tabindex="0" roleID="${boost.id}">🗑️</p>`)
+                $('#roleMultipliers div[col="delete"]').append(`<p class="deleteRow deleteRoleMultiplier" tabindex="0" roleID="${boost.id}"><i data-lucide="trash-2" style="color: var(--emojired); width: 20px; height: 20px; cursor: pointer;"></i></p>`)
             })
             $('#roleMultiplierCount').html(roleMultipliers.length)
             checkUnsavedChanges()
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         // add new multiplier role
@@ -486,10 +490,11 @@ addUhOh()
 
                 $('#channelMultipliers div[col="boost"]').append(`<p class="channelMultiplierAmount numberinput" channelID="${boost.id}" min="0" max="100" decimals="4" default="1" tabindex="-1" contenteditable>${+boost.boost}x</p>`)
                 $('#channelMultipliers div[col="channel"]').append(`<p class="longname">${channelPrefixes[foundChannel.type] || "* "}${foundChannel.name}</p>`)
-                $('#channelMultipliers div[col="delete"]').append(`<p class="deleteRow deleteChannelMultiplier" tabindex="0" channelID="${boost.id}">🗑️</p>`)
+                $('#channelMultipliers div[col="delete"]').append(`<p class="deleteRow deleteChannelMultiplier" tabindex="0" channelID="${boost.id}"><i data-lucide="trash-2" style="color: var(--emojired); width: 20px; height: 20px; cursor: pointer;"></i></p>`)
             })
             $('#channelMultiplierCount').html(channelMultipliers.length)
             checkUnsavedChanges()
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         // add new multiplier channel
@@ -649,6 +654,8 @@ addUhOh()
     buildRewardTable()
     buildRoleMultiplerTable()
     buildChannelMultiplierTable()
+
+    lucide.createIcons();
 
     let defaultData = generateSaveJSON()
     updateHomeInfo(defaultData)

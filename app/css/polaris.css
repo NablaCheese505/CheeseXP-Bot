@@ -1,39 +1,41 @@
-@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-html {
-    --bg: #202020;
-    --fg: #303030;
-    --lighterfg: #404040;
-    --lightererfg: #505050;
-    --evenlighterfg: #606060;
-    --waylighterfg: #707070;
-    --lightestfg: #808080;
+:root {
+    /* 🎨 NUEVA PALETA DE ALTO CONTRASTE */
+    --bg: #121822;              /* Fondo de página SUPER oscuro (casi negro) */
+    --fg: #0d131f;              /* Menú lateral y cabecera */
+    --lighterfg: #151e2f;       /* Fondo de las tarjetas (destaca sobre el bg) */
+    --lightererfg: #1e2a40;     /* Hover de las tarjetas */
+    --lightestfg: #334155;      /* Inputs y líneas separadoras */
+    
+    --polarisgreen: #43dada;    /* Mantenemos tu verde neón característico */
+    --colon: #30a596;           /* Un acento rosa neón para contrastar */
+    
+    /* 🔴 Emojis heredados (Los modernizamos para que encajen con la paleta) */
+    --emojigreen: #10b981;      /* Verde más suave para botones de éxito */
+    --emojired: #ef4444;        /* Rojo moderno para borrar/alertas */
+    --emojiblue: #3b82f6;       /* Azul vibrante para información */
+    --emojipurple: #8b5cf6;     /* Púrpura eléctrico para acciones especiales */
 
-    --lato: Lato, Arial, Helvetica, sans-serif;
-    --opensans: 'Open Sans', --lato;
-
-    --emojired: #DD2E44;
-    --emojiyellow: #F4900C;
-    --emojigreen: #77B255;
-    --emojiblue: #3B88C3;
-    --emojipurple: #9266CC;
-
-    --defaultrolecol: #dddddd;
-
-    --colon: #ff8000;
-    --polarisgreen: #00ff80;
-
+    --defaultrolecol: #94a3b8;  /* Gris azulado para texto secundario o roles sin color */
     --sliderwidth: 60px;
     --sliderheight: 32px;
     --sliderpadding: 4px;
+}
 
+html, body {
     height: 100%;
 }
 
 body {
     background-color: var(--bg);
-    margin: 0px 0px;
+    color: white;
+    margin: 0px;
+    /* ✨ LA NUEVA FUENTE SANS-SERIF MODERNA */
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* Mejoramos el renderizado de la fuente para que se vea premium */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 p, h1, h2, button {
@@ -68,7 +70,7 @@ a {
 input, select, textarea {
     font-family: var(--lato);
     background-color: var(--evenlighterfg);
-    border: 1px solid black;
+    border: 1px solid var(--lightestfg);
     border-radius: 4px;
     height: 40px;
     font-size: 18px;
@@ -111,25 +113,51 @@ select option {
 }
 
 button {
-    font-family: var(--lato);
-    min-width: 100px;
-    height: 40px;
-    padding: 0px 15px;
-    font-size: 18px;
-    font-weight: bold;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    font-family: 'Inter', sans-serif !important; /* Forzamos tu nueva tipografía */
+    font-size: 16px !important; /* Matamos ese 24px gigante */
+    font-weight: 600 !important;
+    color: white;
     background-color: var(--emojiblue);
+    
+    /* Matamos el tamaño fijo cuadrado */
+    height: auto !important; 
+    width: auto !important; 
+    min-width: 140px;
+    
+    /* Le damos respiro y lo redondeamos como las tarjetas */
+    padding: 10px 24px !important; 
+    border: none;
+    border-radius: 8px !important; 
+    cursor: pointer;
+    
+    /* Alineación perfecta y evitamos que el texto se parta en dos líneas */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap; 
+    
+    /* Animación fluida */
+    transition: all 0.2s ease;
 }
 
-button:hover { filter: brightness(115%) }
-button:active { filter: brightness(125%) }
+button:hover, button:focus-visible { 
+    transform: translateY(-2px); /* Se levanta al pasar el ratón */
+    filter: brightness(115%);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25); /* Proyecta sombra */
+    outline: none;
+}
+
+button:active { 
+    transform: translateY(0px); /* Efecto de "clic" real */
+    filter: brightness(125%);
+}
 
 button:disabled {
     cursor: not-allowed;
     opacity: 50%;
     filter: saturate(50%);
+    transform: none; /* Quitamos animación si está desactivado */
+    box-shadow: none;
 }
 
 .fancybutton {
@@ -281,11 +309,19 @@ input:checked + .sliderspan:before {
 }
 
 .box {
-    background-color: var(--lighterfg);
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px 20px 30px 20px;
-    margin: 20px 10px;
+    box-sizing: border-box;
+    border: 2px solid transparent; 
+    border-radius: 12px; 
+    padding: 15px 20px 25px 20px; 
+    margin: 15px auto;
+    display: block; 
+    
+    background-image: linear-gradient(var(--lighterfg), var(--lighterfg)), 
+                      linear-gradient(135deg, var(--polarisgreen), var(--colon));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-image 0.2s ease;
 }
 
 .details {
@@ -295,9 +331,19 @@ input:checked + .sliderspan:before {
     margin-top: 0px;
 }
 
-.settingBox {
-    width: 600px;
-    height: fit-content;
+.settingBox, .sideoption {
+    /* Ocupa el 100% del espacio, apilándose una sobre otra */
+    width: calc(100% - 30px) !important; 
+    max-width: 1000px !important; /* Un tamaño máximo elegante */
+    height: auto !important; 
+    margin-left: auto !important; /* Centrado perfecto */
+    margin-right: auto !important;
+}
+
+/* Mantenemos esta para que los textos no choquen */
+.box p, .box span, .multiplierDescription {
+    height: auto !important;
+    min-height: 0 !important;
 }
 
 .settingBox h2:first-child {
@@ -312,21 +358,45 @@ input:checked + .sliderspan:before {
     transition-duration: 0.1s;
 }
 
+.categoryBox img {
+    height: 50px !important;
+    width: 50px !important;
+    margin-right: 18px;
+    flex-shrink: 0; /* Evita que flexbox los estire a la fuerza */
+}
+
+/* Y por si acaso se borró esta también, ayuda a que el texto quede bien pegado arriba */
+.categoryBox h2 {
+    margin-top: 6px !important;
+}
+
 .categoryBox:hover, .categoryBox:focus-visible {
-    background-color: var(--lightererfg);
+    /* Al pasar el cursor, aclaramos el interior de la tarjeta */
+    background-image: linear-gradient(var(--lightererfg), var(--lightererfg)), 
+                      linear-gradient(135deg, var(--polarisgreen), var(--colon));
+    
+    transform: translateY(-4px); /* Se levanta la tarjeta */
+    
+    /* Le sumamos un brillo verde neón a la sombra negra */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 128, 0.15); 
 }
 
 .categoryBox h2 {
     margin-top: 6px !important;
 }
 
-.categoryBox img {
-    height: 50px;
-    margin-right: 18px;
+.categoryBox {
+    cursor: pointer;
+    width: calc(50% - 30px); /* El 50% del espacio MENOS los 15px de margen izquierdo y 15px del derecho */
+    min-width: 400px; /* Para que no se aplasten demasiado en pantallas medianas */
+    height: 150px;
+    padding: 10px 20px;
+    transition-duration: 0.2s; /* Para que tu animación de hover sea fluida */
 }
 
 .fulllength {
-    width: 1260px;
+    width: calc(100% - 30px);
+    max-width: 1500px;
 }
 
 .settingBreak {
@@ -345,6 +415,8 @@ input:checked + .sliderspan:before {
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
+    flex-wrap: wrap; 
+    gap: 20px;
 }
 
 .middleflex {
@@ -353,10 +425,16 @@ input:checked + .sliderspan:before {
     align-items: center
 }
 
-.spacedflex * {
-    margin-right: 10px;
+.spacedflex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
 }
 
+.spacedflex * {
+    margin-right: 0px !important; 
+}
 .field {
     display: flex;
     flex-direction: column;
@@ -365,9 +443,12 @@ input:checked + .sliderspan:before {
 }
 
 .bottomBar {
-    position: absolute;
-    bottom: 3px;
-    left: 15px;
+    position: relative !important; 
+    bottom: auto !important;
+    left: auto !important;
+    display: flex;
+    align-items: center;
+    margin-top: 15px !important; /* Un respiro con el texto de arriba */
 }
 
 .multiplierDescription {
@@ -434,14 +515,14 @@ input:checked + .sliderspan:before {
     position: fixed;
     display: flex;
     flex-direction: column;
-    width: 225px;
+    /* CAMBIO: Aumentamos el ancho de 225px a 265px */
+    width: 265px; 
     height: 100%;
     background-color: var(--fg);
-    margin-right: 32px;
-    border-right: 1px solid black;
+    border-right: 1px solid var(--lightestfg); /* Borde más sutil */
     overflow: hidden;
     white-space: nowrap;
-    z-index: 1;
+    z-index: 10;
 }
 
 #sidebar div {
@@ -516,7 +597,9 @@ input:checked + .sliderspan:before {
     justify-content: flex-start;
     align-items: flex-start;
     padding-bottom: 20px;
-    margin-left: 240px;
+    /* CAMBIO: Aumentamos el margen para que respete la nueva sidebar (265px + 15px de respiro) */
+    margin-left: 280px; 
+    max-width: 1260px;
 }
 
 .sideoption {
@@ -533,14 +616,22 @@ input:checked + .sliderspan:before {
 }
 
 .desmos {
-    width: 512px;
-    height: 512px;
+    width: 100%; 
+    max-width: 1000px; /* Le damos permiso de ser mucho más ancha */
+    height: 400px; /* La hacemos un poco más bajita (rectangular) */
+    border-radius: 8px; 
+    border: 1px solid var(--lightestfg); 
+    overflow: hidden;
 }
 
 .flexTable {
     overflow-y: auto;
-    width: min-content;
+    overflow-x: auto; /* Permite scroll horizontal en la tabla si es muy ancha en móvil */
+    width: 100%; /* Que ocupe todo el ancho posible de su contenedor */
+    max-width: 800px; /* Un tamaño máximo para que no se estire de más en PC */
     max-height: 750px;
+    display: flex; /* Mantiene las columnas unidas */
+    flex-wrap: nowrap !important; /* PROHÍBE que las columnas salten hacia abajo */
 }
 
 .flexTable div p {
@@ -894,7 +985,95 @@ input:checked + .sliderspan:before {
 
 .red { color: red }
 
-/* @media screen and (max-width: 800px) {
-    #sidebar { width: 62px; min-width: 62px; }
-    #sidebar p { display: none; }
-} */
+@media screen and (max-width: 900px) {
+    body, html {
+        overflow-x: hidden; /* Prohíbe terminantemente el scroll horizontal */
+    }
+
+    #everything {
+        width: 100% !important; /* Fuerza a que el contenedor maestro respete la pantalla */
+    }
+    /* 1. EL MENÚ LATERAL (#sidebar) */
+    /* Lo pasamos de la izquierda a la parte inferior de la pantalla (como una app) */
+    #sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 65px; /* Altura de la barra inferior */
+        flex-direction: row; /* Elementos uno al lado del otro */
+        overflow-x: auto; /* Permite hacer scroll horizontal si hay muchos iconos */
+        overflow-y: hidden;
+        border-right: none;
+        border-top: 1px solid var(--lightestfg);
+        z-index: 100;
+    }
+
+    #sidebar div {
+        height: 100%;
+        min-width: 65px; /* Tamaño mínimo para cada botón del menú */
+        justify-content: center; /* Centrar iconos */
+        padding-left: 0;
+        flex: 1; /* Repartir el espacio equitativamente */
+    }
+
+    #sidebar div img {
+        margin-right: 0; /* Quitamos el margen porque ya no hay texto al lado */
+        width: 24px; /* Iconos un poco más pequeños para que quepan */
+        height: 24px;
+    }
+
+    /* Ocultamos el texto del menú en móvil para ahorrar espacio */
+    #sidebar p { 
+        display: none; 
+    }
+
+    /* 2. EL CONTENEDOR PRINCIPAL (.configboxes) */
+    /* Le quitamos el margen izquierdo porque el menú ya no está ahí */
+    .configboxes {
+        margin-left: 0px; 
+        padding-bottom: 80px; /* Espacio extra abajo para que el nuevo menú inferior no tape contenido */
+        justify-content: center; /* Centramos las tarjetas */
+    }
+
+    /* 3. LAS TARJETAS (Cajas y opciones) */
+    .box, .categoryBox, .fulllength, .sideoption, .settingBox, .sideoptions, .serverOption, .leaderboardBox {
+        width: calc(100% - 30px) !important;
+        min-width: 0 !important; 
+        margin: 15px auto !important; /* Margen perfecto y centrado automático */
+        box-sizing: border-box;
+    }
+
+    /* 4. ELEMENTOS FLEXIBLES (.simpleflex, .centerflex, etc.) */
+    /* Apilamos elementos que antes estaban lado a lado */
+    .simpleflex, .spacedflex {
+        flex-direction: column !important; /* Apilar verticalmente */
+        align-items: stretch !important; /* Estirar para ocupar el ancho */
+    }
+
+    .spacedflex * {
+        margin-right: 0px;
+        margin-bottom: 10px; /* Separación vertical en lugar de horizontal */
+    }
+
+    /* 5. INPUTS Y TEXTAREAS */
+    /* Adaptar anchos fijos de inputs para que no se salgan de la pantalla */
+    input, select, textarea {
+        width: 100% !important;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 6. TABLAS (.flexTable) */
+    /* Permitimos que las tablas hagan scroll horizontal interno si son muy anchas */
+    .flexTable {
+        width: 100% !important;
+        overflow-x: auto;
+        display: block; /* Necesario para que el overflow horizontal funcione bien en tablas falsas */
+    }
+
+    /* 7. POPUPS */
+    .popupbox .box {
+        width: 90%; /* Popups más estrechos en móvil */
+    }
+}
