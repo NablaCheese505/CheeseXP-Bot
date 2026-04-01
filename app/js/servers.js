@@ -66,6 +66,7 @@ Fetch(`/api/guilds`).then(data => {
 
     $('#loading').hide()
     $('#everything').show()
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 })
 .catch((e) => {
     console.error(e)

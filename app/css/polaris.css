@@ -716,21 +716,24 @@ input:checked + .sliderspan:before {
     max-width: 600px;
 }
 
-.serverOption .serverIcons img {
+.serverOption .serverIcons svg {
     cursor: pointer;
-    height: 48px;
+    width: 28px;
+    height: 28px;
+    color: white; /* Color base */
+    transition: color 0.1s;
 }
 
 .serverOption .serverIcons a {
     transition-duration: 0.1s;
     border-radius: 5px;
-    padding: 5px 5px;
-    margin: 5px 5px;
+    padding: 8px; /* Un poco más de área para hacer clic */
+    margin: 0 2px;
     display: none;
 }
 
-.serverOption .serverIcons a:hover, .serverOption .serverIcons a:focus-visible {
-    transform: scale(1.1);
+.serverOption .serverIcons a:hover svg, .serverOption .serverIcons a:focus-visible svg {
+    color: var(--polarisgreen); /* Se pintan de verde al pasar el ratón */
 }
 
 .serverBreak {
@@ -990,6 +993,39 @@ input:checked + .sliderspan:before {
 
 .red { color: red }
 
+/* 1. Domamos el contenedor para que no aplaste el texto */
+.serverOption .serverIcons {
+    width: auto !important;
+    flex-grow: 1 !important; 
+    justify-content: flex-end !important;
+}
+
+/* 2. Le damos a los botones un tamaño estricto tipo "caja" */
+.serverOption .serverIcons a {
+    width: 38px !important; 
+    height: 38px !important; 
+    border-radius: 8px !important;
+    text-align: center !important;
+    line-height: 44px !important; /* Centra el icono verticalmente */
+    margin: 0 4px !important;
+    padding: 0 !important; /* Matamos los paddings que lo deformaban */
+}
+
+/* 3. ¡LA CURA! Bloqueamos el tamaño del SVG para que jamás vuelva a crecer */
+.serverOption .serverIcons svg {
+    width: 24px !important; 
+    height: 24px !important;
+    vertical-align: middle !important;
+    flex-shrink: 0 !important;
+    color: white;
+    transition: color 0.1s;
+}
+
+/* 4. Efecto hover brillante */
+.serverOption .serverIcons a:hover svg, .serverOption .serverIcons a:focus-visible svg {
+    color: var(--polarisgreen) !important; 
+}
+
 @media screen and (max-width: 900px) {
     body, html {
         overflow-x: hidden; /* Prohíbe terminantemente el scroll horizontal */
@@ -1187,5 +1223,99 @@ input:checked + .sliderspan:before {
     .curveInfo p, #presetDesc {
         white-space: normal !important;
         word-wrap: break-word !important;
+    }
+    /* ========================================= */
+    /* 12. PÁGINA DE INICIO (Home / Index)       */
+    /* ========================================= */
+    
+    /* 1. Volvemos el contenedor principal una columna vertical centrada */
+    body > .middleflex > .middleflex {
+        flex-direction: column !important;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    /* 2. Centramos el logo y lo hacemos un poco más adaptable */
+    body > .middleflex > .middleflex > img {
+        margin-right: 0px !important;
+        margin-bottom: 20px !important;
+        height: 120px !important; /* Un poco más pequeño para dejar respirar el texto */
+    }
+
+    /* 3. Reducimos los textos gigantes para que no rompan la pantalla */
+    body > .middleflex > .middleflex h1 {
+        font-size: 38px !important;
+        line-height: 1.1 !important;
+        margin-bottom: 15px !important;
+    }
+
+    body > .middleflex > .middleflex p {
+        font-size: 18px !important;
+        line-height: 1.5 !important; 
+    }
+
+    /* 4. Apilamos los botones y matamos el alto fijo de 50px */
+    #buttonList {
+        height: auto !important; 
+        flex-direction: column !important;
+        gap: 15px; /* Separación limpia entre botones */
+    }
+
+    #buttonList a, #buttonList button {
+        width: 100% !important; /* Botones anchos, fáciles de tocar */
+    }
+
+    /* 5. Aseguramos que los créditos del fondo se mantengan centrados */
+    body > .middleflex > .bottomBar {
+        position: relative !important;
+        margin-top: auto !important;
+        bottom: 20px !important;
+        left: 0 !important;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    /* ========================================= */
+        /* 13. PÁGINA DE SERVIDORES (Móvil)          */
+        /* ========================================= */
+
+        /* Le damos padding al contenedor del título para que no se pegue al borde */
+        #everything > .centerflex {
+            padding: 0 20px !important; 
+            text-align: center; /* Aseguramos que el texto esté centrado */
+            box-sizing: border-box; /* Previene que el padding estire la pantalla */
+        }
+
+        /* Reducimos ligeramente el tamaño de la fuente para que quepa mejor */
+        #everything > .centerflex h2 {
+            font-size: 26px !important; 
+        }
+
+        #everything > .centerflex p {
+            font-size: 16px !important;
+        }
+
+        .serverOption {
+        min-width: 0 !important; /* Matamos el ancho mínimo que rompe la pantalla */
+        width: calc(100% - 40px) !important;
+        height: auto !important; /* Permite que la tarjeta crezca si es necesario */
+        padding: 15px !important;
+    }
+
+    /* Reducimos un poco la imagen del avatar para ahorrar espacio */
+    .serverOption img[sv=icon] {
+        height: 50px !important;
+        margin-right: 15px !important;
+    }
+
+    /* Hacemos los iconos un poco más pequeños para que encajen mejor */
+    .serverOption .serverIcons svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* Reducimos el padding de los botones para que no ocupen tanto a lo ancho */
+    .serverOption .serverIcons a {
+        padding: 5px;
     }
 }

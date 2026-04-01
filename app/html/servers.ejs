@@ -28,18 +28,27 @@
         </div>
 
         <div class="serverOption canfocus" tabindex="0">
-            <div class="middleflex" style="width: 10px; justify-content: flex-start">
+            <div class="middleflex" style="flex-grow: 1; min-width: 0; justify-content: flex-start">
                 <img sv="icon">
-                <div>
-                    <p style="font-size: 22px"><b sv="name"></b></p>
+                <div style="min-width: 0; overflow: hidden; padding-right: 10px;">
+                    <p style="font-size: 22px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><b sv="name"></b></p>
                     <p sv="status"></p>
                 </div>
             </div>
-            <div class="serverIcons" style="display: flex; align-items: center;">
-                <a class="canfocus" sv="leaderboard" title="<%= t('servers_page.tooltips.leaderboard') %>"><img src="/assets/icons/podium.svg"></a>
-                <a class="canfocus" sv="settings" title="<%= t('servers_page.tooltips.settings') %>"><img src="/assets/icons/cog.svg"></a>
-                <a class="canfocus" sv="downloaddata" title="<%= t('servers_page.tooltips.download') %>"><img src="/assets/icons/download.svg"></a>
-                <a class="canfocus" sv="invite" title="<%= t('servers_page.tooltips.invite') %>"><img src="/assets/icons/plus.svg"></a>
+            
+            <div class="serverIcons" style="display: flex; align-items: center; justify-content: flex-end;">
+                <a class="canfocus" sv="leaderboard" title="<%= t('servers_page.tooltips.leaderboard') %>">
+                    <i data-lucide="bar-chart-2"></i>
+                </a>
+                <a class="canfocus" sv="settings" title="<%= t('servers_page.tooltips.settings') %>">
+                    <i data-lucide="settings"></i>
+                </a>
+                <a class="canfocus" sv="downloaddata" title="<%= t('servers_page.tooltips.download') %>">
+                    <i data-lucide="download"></i>
+                </a>
+                <a class="canfocus" sv="invite" title="<%= t('servers_page.tooltips.invite') %>">
+                    <i data-lucide="plus"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -64,6 +73,7 @@
 
     <script type="text/javascript" src="/polaris.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script type="text/javascript" src="/js/servers.js"></script>
 </body>
 </html>
