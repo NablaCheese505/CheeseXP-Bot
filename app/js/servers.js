@@ -1,9 +1,10 @@
 addUhOh()
+let i18n = window.i18nServers || {}; // Fallback
 
 let serverSlot = $('.serverOption').first().clone()
 $('.serverOption').remove()
 
-Fetch(`./api/guilds`).then(data => {
+Fetch(`/api/guilds`).then(data => {
     $('#username').text(data.user.displayName).css("color", data.user.color)
 
     let sortedGuilds = data.guilds.sort((a, b) => {
@@ -19,18 +20,20 @@ Fetch(`./api/guilds`).then(data => {
     let breaks = {}
     sortedGuilds.forEach((x, y) => {
         let slot = serverSlot.clone()
-        slot.find('[sv=icon]').attr("src", x.icon ? `https://cdn.discordapp.com/icons/${x.id}/${x.icon}.png` : "./assets/avatar.png")
+        slot.find('[sv=icon]').attr("src", x.icon ? `https://cdn.discordapp.com/icons/${x.id}/${x.icon}.png` : "/assets/avatar.png")
         slot.find('[sv=name]').text(x.name).attr("title", x.name).css("color", x.xp ? "#00ff80" : "white")
-        slot.find('[sv=status]').text(x.permissions.owner ? "Server owner" : x.permissions.server ? "Moderator" : "Member")
+        
+        let statusText = x.permissions.owner ? i18n.owner : x.permissions.server ? i18n.moderator : i18n.member;
+        slot.find('[sv=status]').text(statusText)
 
         if (x.inServer) {
-            if (x.permissions.server) slot.find('[sv=settings]').css("display", "block").attr("href", `./settings/${x.id}`)
-            if (x.leaderboard) slot.find('[sv=leaderboard]').css("display", "block").attr("href", `./leaderboard/${x.id}`)
+            if (x.permissions.server) slot.find('[sv=settings]').css("display", "block").attr("href", `/settings/${x.id}`)
+            if (x.leaderboard) slot.find('[sv=leaderboard]').css("display", "block").attr("href", `/leaderboard/${x.id}`)
         }
 
         else if (x.permissions.server && (x.hasData || data.botPublic)) {
             if (x.hasData) slot.find('[sv=downloaddata]').css("display", "block").on("click", function(e) { e.preventDefault(); e.stopImmediatePropagation(); downloadServerData(x) })
-            if (data.botPublic) slot.find('[sv=invite]').css("display", "block").attr("onclick", `window.open('./invite/${x.id}', 'popup', 'width=500,height=750'); return false`)
+            if (data.botPublic) slot.find('[sv=invite]').css("display", "block").attr("onclick", `window.open('/invite/${x.id}', 'popup', 'width=500,height=750'); return false`)
         }
 
         else return;
@@ -88,14 +91,14 @@ Fetch(`./api/guilds`).then(data => {
 
 let downloading = false
 function downloadServerData(server) {
-    if (!server || !confirm(`Would you like to download all Polaris data from ${server.name}? (it can be imported into other bots)`)) return
+    if (!server || !confirm(`${i18n.confirm_dl_1}${server.name}${i18n.confirm_dl_2}`)) return
 
-    fetch(`./api/xp/${server.id}?format=everything`).then(res => {
+    fetch(`/api/xp/${server.id}?format=everything`).then(res => {
         if (!res.ok) {
             downloading = false
             return res.json().then(x => {
-                alert(`Error! ${x.message}`);
-            }).catch(e => alert("Error downloading data!"))
+                alert(`${i18n.error} ${x.message}`);
+            }).catch(e => alert(i18n.error_dl))
         }
         
         else res.blob().then(blob => {
@@ -109,7 +112,7 @@ function downloadServerData(server) {
         })
     }).catch((e) => {
         downloading = false
-        alert(`Error! ${e.responseText}`);
+        alert(`${i18n.error} ${e.responseText}`);
         console.error(e)
     })
 }

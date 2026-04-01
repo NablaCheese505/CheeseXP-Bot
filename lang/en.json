@@ -657,5 +657,28 @@
           "lb_disabled_desc": "This server has disabled the leaderboard."
         }
       }
+    },
+  "servers_page": {
+      "title": "Cheese XP - Servers",
+      "description": "An open-source XP bot",
+      "loading": "Loading...",
+      "welcome_back": "Welcome back,",
+      "select_server": "Select a server to manage",
+      "log_out": "Log out",
+      "tooltips": {
+        "leaderboard": "Leaderboard",
+        "settings": "Settings",
+        "download": "Download data",
+        "invite": "Invite to server!"
+      },
+      "js": {
+        "server_owner": "Server owner",
+        "moderator": "Moderator",
+        "member": "Member",
+        "confirm_download_1": "Would you like to download all data from ",
+        "confirm_download_2": "? (it can be imported into other bots)",
+        "error": "Error!",
+        "error_downloading": "Error downloading data!"
+      }
     }
 }

@@ -657,5 +657,28 @@
           "lb_disabled_desc": "Este servidor ha deshabilitado la tabla de clasificación."
         }
       }
-    }
+    },
+  "servers_page": {
+      "title": "Cheese XP - Servidores",
+      "description": "Un bot de niveles de código abierto",
+      "loading": "Cargando...",
+      "welcome_back": "Bienvenido de nuevo,",
+      "select_server": "Selecciona un servidor para administrar",
+      "log_out": "Cerrar sesión",
+      "tooltips": {
+        "leaderboard": "Clasificación",
+        "settings": "Configuraciones",
+        "download": "Descargar datos",
+        "invite": "¡Invitar al servidor!"
+      },
+      "js": {
+        "server_owner": "Propietario del servidor",
+        "moderator": "Moderador",
+        "member": "Miembro",
+        "confirm_download_1": "¿Te gustaría descargar todos los datos de ",
+        "confirm_download_2": "? (se pueden importar en otros bots)",
+        "error": "¡Error!",
+        "error_downloading": "¡Error al descargar los datos!"
+      }
+    }  
 }
