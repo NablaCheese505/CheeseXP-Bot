@@ -1,3 +1,9 @@
+function escapeHTML(str) {
+    if (!str) return "";
+    return String(str).replace(/[&<>'"]/g, match => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    }[match]));
+}
 function Fetch(url, settings={}) {
     return new Promise(function (res, rej) {
         fetch(url).then(r => {

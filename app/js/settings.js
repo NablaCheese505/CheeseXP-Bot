@@ -62,7 +62,7 @@ addUhOh()
         $('.serverName').text(data.guild.name)
         $('.serverMembers').text(commafy(data.guild.members || "?") + " " + (data.guild.members == 1 ? i18n.member : i18n.members))
         $('.serverIcon').attr('src', data.guild.icon || "/assets/avatar.png")
-        $('#otherServers').append(data.ownedServers.map(x => `<option value="${x.id}">${x.name}</option>`))
+        $('#otherServers').append(data.ownedServers.map(x => `<option value="${x.id}">${escapeHTML(x.name)}</option>`))
         
         // fill in inputs with current values
         $('input[db], select[db]').each(function() {
@@ -309,7 +309,7 @@ addUhOh()
                 else $(`#rewardRoleSelect option[value=${reward.id}]`).prop('hidden', true)
 
                 $('#rewards div[col="lvl"]').append(`<p class="rewardLevel numberinput" tabindex="-1" roleID="${reward.id}" min="1" max="1000" default="10" contenteditable>${reward.level}</p>`)
-                $('#rewards div[col="role"]').append(`<p class="longname" style="color: ${foundRole.color == "#000000" ? "var(--defaultrolecol)" : foundRole.color}">${foundRole.name}</p>`)
+                $('#rewards div[col="role"]').append(`<p class="longname" style="color: ${foundRole.color == "#000000" ? "var(--defaultrolecol)" : foundRole.color}">${escapeHTML(foundRole.name)}</p>`)
                 $('#rewards div[col="keep"]').append(`<p class="toggleRow" tr="keep" tabindex="0" roleID="${reward.id}" style="color: ${reward.keep ? "lime" : "nah"}">${reward.keep ? i18n.yes : i18n.no}${reward.noSync && !excludeEnabled ? "*" : ""}</p>`)
                 $('#rewards div[col="exclude"]').append(`<p class="toggleRow" tr="noSync" tabindex="0" roleID="${reward.id}" style="color: ${reward.noSync ? "red" : "lime"}">${reward.noSync ? i18n.no : i18n.yes}</p>`)
                 $('#rewards div[col="delete"]').append(`<p class="deleteRow deleteReward" tabindex="0" roleID="${reward.id}"><i data-lucide="trash-2" style="color: var(--emojired); width: 20px; height: 20px; cursor: pointer;"></i></p>`)
@@ -338,7 +338,7 @@ addUhOh()
 
         // role selectors
         data.roles.forEach(x => {
-            let roleOption = $(`<option value="${x.id}">${x.name}</option>`)
+            let roleOption = $(`<option value="${x.id}">${escapeHTML(x.name)}</option>`)
             roleOption.css("color", x.color == "#000000" ? "var(--defaultrolecol)" : x.color)
 
             if (!x.managed) appendRoleSelect('#rewardRoleSelect', roleOption, x, true, rewards.some(r => r.id == x.id))
@@ -346,7 +346,7 @@ addUhOh()
         })
 
         let channelPrefixes = { channel: "#", category: "&gt; ", vc: "🔊 ", thread: "└─ ", forum: "💬 "}
-        let chMultiplierChannels = data.channels.map(x => `<option ${x.type == "category" ? `style="font-weight: bold"` : ""} value="${x.id}">${channelPrefixes[x.type] || "* "}${x.name}</option>`)
+        let chMultiplierChannels = data.channels.map(x => `<option ${x.type == "category" ? `style="font-weight: bold"` : ""} value="${x.id}">${channelPrefixes[x.type] || "* "}${escapeHTML(x.name)}</option>`)
         $('#channelMultiplierSelect').append(`<option value='none' selected disabled>${i18n.opt_channel}</option>`).append(chMultiplierChannels)
 
 
@@ -433,7 +433,7 @@ addUhOh()
                 else $(`#roleMultiplierSelect option[value=${boost.id}]`).prop('hidden', true)
 
                 $('#roleMultipliers div[col="boost"]').append(`<p class="roleMultiplierAmount numberinput" roleID="${boost.id}" min="0" max="100" decimals="4" default="1" tabindex="-1" contenteditable>${+boost.boost}x</p>`)
-                $('#roleMultipliers div[col="role"]').append(`<p class="longname" style="color: ${foundRole.color == "#000000" ? "var(--defaultrolecol)" : foundRole.color}">${foundRole.name}</p>`)
+                $('#roleMultipliers div[col="role"]').append(`<p class="longname" style="color: ${foundRole.color == "#000000" ? "var(--defaultrolecol)" : foundRole.color}">${escapeHTML(foundRole.name)}</p>`)
                 $('#roleMultipliers div[col="delete"]').append(`<p class="deleteRow deleteRoleMultiplier" tabindex="0" roleID="${boost.id}"><i data-lucide="trash-2" style="color: var(--emojired); width: 20px; height: 20px; cursor: pointer;"></i></p>`)
             })
             $('#roleMultiplierCount').html(roleMultipliers.length)
@@ -492,7 +492,7 @@ addUhOh()
                 else $(`#channelMultiplierSelect option[value=${boost.id}]`).prop('hidden', true)
 
                 $('#channelMultipliers div[col="boost"]').append(`<p class="channelMultiplierAmount numberinput" channelID="${boost.id}" min="0" max="100" decimals="4" default="1" tabindex="-1" contenteditable>${+boost.boost}x</p>`)
-                $('#channelMultipliers div[col="channel"]').append(`<p class="longname">${channelPrefixes[foundChannel.type] || "* "}${foundChannel.name}</p>`)
+                $('#channelMultipliers div[col="channel"]').append(`<p class="longname">${channelPrefixes[foundChannel.type] || "* "}${escapeHTML(foundChannel.name)}</p>`)
                 $('#channelMultipliers div[col="delete"]').append(`<p class="deleteRow deleteChannelMultiplier" tabindex="0" channelID="${boost.id}"><i data-lucide="trash-2" style="color: var(--emojired); width: 20px; height: 20px; cursor: pointer;"></i></p>`)
             })
             $('#channelMultiplierCount').html(channelMultipliers.length)

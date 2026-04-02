@@ -16,9 +16,11 @@ class Model {
     constructor(collectionName, schema) {
         this.schema = schema;
         this.model = mongoose.model(collectionName, this.schema);
+        const sanitizeId = (id) => typeof id === 'object' ? String(id) : id;
 
-        this.fetch = (id, filter, options) => this.model.findById(id, filter, options);
-        this.update = (id, data, options) => this.model.findByIdAndUpdate(id, data, options);
+        this.fetch = (id, filter, options) => this.model.findById(sanitizeId(id), filter, options);
+        this.update = (id, data, options) => this.model.findByIdAndUpdate(sanitizeId(id), data, options);
+        
         this.create = (data, options) => this.model.create(data, options);
         this.find = (query, filter, options) => this.model.find(query, filter, options);
         this.delete = (query, options) => this.model.deleteMany(query, options);
