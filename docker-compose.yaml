@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  cheesexp-bot:
+    build: .
+    container_name: cheesexp_bot_prod
+    restart: unless-stopped
+    ports:
+      - "6880:6880"
+    env_file:
+      - .env
+    volumes:
+      - ./json/auto:/usr/src/app/json/auto
+    environment:
+      - NODE_ENV=production
