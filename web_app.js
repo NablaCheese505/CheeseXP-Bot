@@ -20,6 +20,7 @@ const schemaData = require("./database_schema.js")
 module.exports = (client) => {
 
 const app = express();
+app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'app/html'));
 const tools = Tools.global
@@ -41,10 +42,10 @@ const discord_auth = discordAPI + `oauth2/authorize?client_id=${process.env.DISC
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 
 // discord perms
-const manage_roles = Number(Discord.PermissionFlagsBits.ManageRoles)
-const manage_messages = Number(Discord.PermissionFlagsBits.ManageMessages)
-const manage_server = Number(Discord.PermissionFlagsBits.ManageGuild)
-const server_admin = Number(Discord.PermissionFlagsBits.Administrator)
+const manage_roles = BigInt(Discord.PermissionFlagsBits.ManageRoles)
+const manage_messages = BigInt(Discord.PermissionFlagsBits.ManageMessages)
+const manage_server = BigInt(Discord.PermissionFlagsBits.ManageGuild)
+const server_admin = BigInt(Discord.PermissionFlagsBits.Administrator)
 
 // database
 let schema = new mongoose.Schema({
@@ -65,7 +66,8 @@ function sendRedirect(res, name) {
 
 function canManageServer(guild) {
     if (!guild) return false
-    return guild.owner || (guild.permissions & manage_server) || (guild.permissions & server_admin)
+    let p = BigInt(guild.permissions)
+    return guild.owner || ((p & manage_server) === manage_server) || ((p & server_admin) === server_admin)
 }
 
 function botIsPublic() {
@@ -150,22 +152,21 @@ app.get("/api/guilds", async function(req, res) {
     // find all servers that exist in the database + the user is currently in
     let guildList = guilds.map(x => x.id)
     let foundServers = await client.db.find({ "_id": { $in: guildList } }, "settings").catch(() => [])
-    let validServers = guilds.filter(x => x.owner || (x.permissions & manage_server) || foundServers.some(g => g._id == x.id)) // filter to just the servers above, OR manageable servers
-
+    let validServers = guilds.filter(x => x.owner || ((BigInt(x.permissions) & manage_server) === manage_server) || foundServers.some(g => g._id == x.id)) // filter to just the servers above, OR manageable servers
     let activeIDs = await client.shard.broadcastEval(async (cl, xd) => {
         return xd.ids.filter(x => cl.guilds.cache.has(x))
     }, { context: { ids: validServers.map(x => x.id) } })
     activeIDs = activeIDs.flat()
 
     validServers = validServers.map(x => {
-        let p = x.permissions // check permissions
+        let p = BigInt(x.permissions)
         let inServer = activeIDs.includes(x.id)
-        let admin = x.owner || !!(p & server_admin)
+        let admin = x.owner || ((p & server_admin) === server_admin)
         let perms = {
             owner: x.owner,
-            server: admin || !!(p & manage_server),
-            roles: admin || !!(p & manage_roles),
-            messages: admin || !!(p & manage_messages),
+            server: admin || ((p & manage_server) === manage_server) || tools.isDev(user),
+            roles: admin || ((p & manage_roles) === manage_roles),
+            messages: admin || ((p & manage_messages) === manage_messages),
         }
         let foundDB = foundServers.find(g => g._id == x.id)
         let xpEnabled = inServer && foundDB?.settings?.enabled  // if xp is enabled for this server
